@@ -1,6 +1,6 @@
 "use client";
 
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import Callout from "plaid-threads/Callout";
 import Button from "plaid-threads/Button";
 import InlineLink from "plaid-threads/InlineLink";
@@ -19,9 +19,11 @@ const Header = () => {
     linkTokenError,
   } = useContext(Context);
 
+  const [showTokenDetails, setShowTokenDetails] = useState(false);
+
   return (
     <div>
-      <h3>Plaid Transactions</h3>
+      <h1 className="text-3xl text-black pb-6">Plaid Transactions</h1>
 
       {!linkSuccess ? (
         <>
@@ -92,16 +94,26 @@ const Header = () => {
                   </Callout>
                 </h4>
               )}
-              <div>
-                <p>
-                  <span>item_id</span>
-                  <span>{itemId}</span>
-                </p>
+              <div className="my-4">
+                <button
+                  className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white px-2 border border-blue-500 hover:border-transparent rounded"
+                  onClick={() => setShowTokenDetails(!showTokenDetails)}
+                >
+                  {showTokenDetails ? `Hide` : `Show`} OAuth connection details
+                </button>
+                {showTokenDetails && (
+                  <div>
+                    <p>
+                      <span>item_id: </span>
+                      <span>{itemId}</span>
+                    </p>
 
-                <p>
-                  <span>access_token</span>
-                  <span>{accessToken}</span>
-                </p>
+                    <p>
+                      <span>access_token: </span>
+                      <span>{accessToken}</span>
+                    </p>
+                  </div>
+                )}
               </div>
             </>
           }

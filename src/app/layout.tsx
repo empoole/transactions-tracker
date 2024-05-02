@@ -16,7 +16,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <QuickstartProvider>{children}</QuickstartProvider>
+        <div className="w-full px-8 py-4 overflow-x-hidden border-t flex flex-col">
+          <QuickstartProvider>{children}</QuickstartProvider>
+        </div>
       </body>
     </html>
   );

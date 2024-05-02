@@ -54,11 +54,17 @@ const Endpoint = (props: Props) => {
         </div>
       </div>
       {showTable && (
-        <Table
-          categories={props.categories}
-          data={transformedData}
-          isIdentity={props.endpoint === "identity"}
-        />
+        <div className="w-full mt-12">
+          <p className="text-xl pb-3 flex items-center">
+            <i className="fas fa-list mr-3"></i> Latest Transactions
+          </p>
+
+          <Table
+            categories={props.categories}
+            data={transformedData}
+            isIdentity={props.endpoint === "identity"}
+          />
+        </div>
       )}
       {error != null && <Error error={error} />}
     </>

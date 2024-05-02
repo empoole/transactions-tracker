@@ -11,6 +11,20 @@ interface Props {
 
 const Table = (props: Props) => {
   const maxRows = 15;
+
+  const currencyRows = ["Amount"];
+
+  const USDFormat = (num: number): string => {
+    let sign = "";
+    if (num >= 0) {
+      sign += "$";
+    } else {
+      sign += "-$";
+      num = Math.abs(num);
+    }
+    return sign + num.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+  };
+
   // regular table
   const headers = props.categories.map((category, index) => (
     <th key={index}>{category.title}</th>
@@ -19,11 +33,19 @@ const Table = (props: Props) => {
   const rows = props.data
     .map((item: DataItem | any, index) => (
       <tr key={index}>
-        {props.categories.map((category: Categories, index) => (
-          <td key={index} className="text-left py-3 px-4">
-            {item[category.field]}
-          </td>
-        ))}
+        {props.categories.map((category: Categories, index) => {
+          let cellValue = item[category.field];
+          if (currencyRows.includes(category.title)) {
+            let currencyVal = item[category.field].split(" ");
+            cellValue = USDFormat(parseFloat(currencyVal[1]));
+          }
+
+          return (
+            <td key={index} className="text-left py-3 px-4">
+              {cellValue}
+            </td>
+          );
+        })}
       </tr>
     ))
     .slice(0, maxRows);
